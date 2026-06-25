@@ -8,7 +8,7 @@ argument-hint: "[user-prompt] [questionable]"
 
 ## Purpose
 
-Create a detailed, **HTML-first** implementation plan based on the `USER_PROMPT` variable. The plan is authored as a single self-contained `.html` page so it can be opened in a browser, embed focused images with a synced visual identity, and be created/updated/consumed by the agent trifecta (engineer, team, AI agents). Analyze the request, think through the implementation approach, follow the `## Instructions`, and work through the `## Workflow` to produce the plan from the `## Plan Template`.
+Create a detailed, **HTML-first** implementation plan based on the `USER_PROMPT` variable. The plan is authored as a single self-contained `.html` page so it can be opened in a browser, embed focused Excalidraw diagrams with a synced visual identity, and be created/updated/consumed by the agent trifecta (engineer, team, AI agents). Analyze the request, think through the implementation approach, follow the `## Instructions`, and work through the `## Workflow` to produce the plan from the `## Plan Template`.
 
 ## Variables
 
@@ -32,10 +32,11 @@ BROWSER: `chrome`
 - The template uses `{{PLACEHOLDER}}` variables — replace EVERY `{{...}}` with real content. Do not leave any `{{}}` token in the final file
 - Blocks marked with `<!-- repeat -->` are repeatable: duplicate them as many times as the plan needs (e.g. one block per phase, task, file, or Q&A entry) and delete the comment markers
 - Keep the document self-contained: all CSS lives in the single `<style>` block; do not link external stylesheets or scripts
-- Maintain a **synced visual identity** between the html styling and the generated images. We want a professional, focused, minimal theme based on the original `USER_PROMPT` that created the plan. The CSS custom properties in `:root` define the palette/typography. Any embedded image must be generated to match this same identity.
-- For every image created keep them professional and focused on one or two primary ideas. Keep text bloat down by minimizing the total number of sets of words requested in the image prompt under 10. The goal is to build images that aid the plan and convey the core information throughout the plan given the section the image was created for. 
-- Build images for professional software engineers to convey exactly what is going to be built. Be sure to center and space images properly. 
-- Embed images via the `{{...IMAGE}}` slots. During Create, leave them as commented placeholders noting the intended subject; the Image Generation workflow fills them later
+- Visuals are **Excalidraw diagrams**, not AI-generated raster art. Each diagram is a simple, straightforward box/arrow/flow drawing authored as an editable `.excalidraw` source file and rendered to a PNG (locally, no API key). Keep designs clean, minimal, and professional — easy to map out at a glance.
+- Maintain a **synced visual identity** between the html styling and the diagrams. We want a professional, focused, minimal theme based on the original `USER_PROMPT` that created the plan. The CSS custom properties in `:root` define the palette/typography. Every diagram must use the same palette so the rendered PNGs sit naturally inside the page.
+- For every diagram, focus on one or two primary ideas. Keep total words shown under ~10 — boxes, arrows, and short labels only. The goal is diagrams that aid the plan and convey the core information for the section they belong to.
+- Build diagrams for professional software engineers to convey exactly what is going to be built. Be sure to center and space them properly.
+- Embed diagrams via the `{{...IMAGE}}` slots. During Create, leave them as commented placeholders noting the intended subject; the Diagram Generation workflow fills them later
 - Populate the metadata header (`created`, `modified`, `commits`, `agent`, `session`, back/forward references) — these are updatable across the plan's lifecycle. Every metadata field except `CREATED_ISO` is a comma-separated list that must only ever be appended to — never overwrite or remove existing entries
 - If `QUESTIONABLE` is true, actively surface open questions/assumptions in the toggleable Q&A section rather than silently deciding
 - Ensure the plan is detailed enough that another developer (or agent) could follow it to implement the solution
@@ -60,7 +61,7 @@ Called by other workflows rather than selected directly from the `USER_PROMPT`.
 
 | Subworkflow | When it's called | File to read |
 | --- | --- | --- |
-| Image Generation | Invoked by other workflows (e.g. Create Plan) to generate, fill, or regenerate the embedded images in a plan | `workflows/image-generation.md` |
+| Diagram Generation | Invoked by other workflows (e.g. Create Plan) to generate, fill, or regenerate the embedded Excalidraw diagrams in a plan | `workflows/diagram-generation.md` |
 
 ## Plan Template
 
